@@ -4,56 +4,53 @@ import { Fragment, useState, useEffect } from 'react'
 import Expenses from './components/Expenses/Expenses'
 import './style.css'
 import NewExpense from './components/Expenses/NewExpense'
-import axios from 'axios';
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    title: 'Toilet Paper',
-    amount: 94.12,
-    date: new Date(2020, 7, 14),
-  },
-  { id: 'e2', title: 'New TV', amount: 799.49, date: new Date(2021, 2, 12) },
-  {
-    id: 'e3',
-    title: 'Car Insurance',
-    amount: 294.67,
-    date: new Date(2021, 2, 28),
-  },
-  {
-    id: 'e4',
-    title: 'New Desk (Wooden)',
-    amount: 450,
-    date: new Date(2021, 5, 12),
-  },
-];
-const getDatafromLS = () => {
-  const data = localStorage.getItem('expenses');
-
-  if (data) {
-    let jsonData = JSON.parse(data);
-    jsonData.map((v,i) => {
-      v.date = new Date(v.date)
-      return v
-    })
-    return jsonData
-  }
-  else {
-    return []
-  }
-}
 
 function App() {
 
-  const [expenses, setExpenses] = useState(getDatafromLS());
+  const [expenses, setExpenses] = useState([]);
 
-  const addNewDataHandler = (expense) => {
-    setExpenses((preExpenses) => {
-      return [expense, ...preExpenses];
-    });
+  const addNewDataHandler = async (expense) => {
+    // localStorage.setItem('expenses', JSON.stringify(expenses));
+    await fetch('https://expensestracker-59e29-default-rtdb.firebaseio.com/expenseslist.json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'aplication/json',
+      },
+      body: JSON.stringify(expense),
+    })
   }
-  useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
+ useEffect(async () => {
+    // fetch('https://expensestracker-59e29-default-rtdb.firebaseio.com//expenseslist.json')
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     const convertedData = Object.keys(data).map((key) => {
+    //       return {
+    //         id: data[key].id,
+    //         title: data[key].title,
+    //         amount: data[key].amount,
+    //         date: new Date(data[key].date),
+    //       }
+    //     })
+    //     setExpenses(convertedData)
+
+
+    //   })
+     const response = await fetch('https://expensestracker-59e29-default-rtdb.firebaseio.com/expenseslist.json')
+     const data =  await response.json()
+      let convertedData = Object.keys(data).map((key) => {
+        return {
+          id: data[key].id,
+          title: data[key].title,
+          amount: data[key].amount,
+          date: new Date(data[key].date),
+        }})
+      setExpenses(convertedData)
   }, [expenses])
+
+
+
 
 
   return (
@@ -64,4 +61,4 @@ function App() {
     </Fragment>)
 }
 
-export default App
+export default App;
