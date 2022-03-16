@@ -15,12 +15,10 @@ function App() {
     <Fragment>
    
    <Routes>
-     <Route path='signup' element={<Signup/>}/>
-     <Route path='login' element={<Login/>}/>
+     <Route path='/signup' element={<Signup/>}/>
+     <Route path='/login' element={<Login/>}/>
+     <Route path='/dashboard'element={<Dashboard/>}/>
      <Route path ='/' element={<Home/>}/>
-     <Route path ='dashboard' element={<Dashboard/>}/>
-
-
      </Routes>
      
     </Fragment>)
