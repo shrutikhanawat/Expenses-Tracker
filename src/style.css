@@ -1,3 +1,15 @@
 body {
   background-color: lightslategray;
 }
+
+.btn1{
+  font: inherit;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border: 1px solid red;
+    background-color:red;
+    color: white;
+    border-radius: 12px;
+    margin-right: 1rem;
+
+}
