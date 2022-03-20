@@ -3,6 +3,9 @@ const Home = ()=>{
     const navigate = useNavigate()
 
     return <div>
+        <div>
+            <image></image>
+        </div>
         <button className='btn1' onClick ={()=>navigate('signup')}>Signup</button>
         <button className='btn1' onClick ={()=>navigate('login')}>Login</button>
 

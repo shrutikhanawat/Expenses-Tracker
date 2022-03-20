@@ -26,12 +26,16 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const navigate = useNavigate()
+  const succefullyLogin = (email) => {
+    navigate(`/dashboard?user=${email}`)
+  }
 
 
   const classes = useStyles();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
 
 
   const emailHandler = (e) => {
@@ -49,7 +53,7 @@ const Login = () => {
     if (userData !== null) {
 
       if (userPassword === userData.password) {
-        setErrorMessage("Login Successfully")
+        succefullyLogin(userEmail);
       }
       else {
         setErrorMessage("Incorrect Password")
@@ -58,7 +62,7 @@ const Login = () => {
 
     }
     else {
-      setErrorMessage("New user please create your account")
+      setErrorMessage("Please create your account")
     }
 
 
@@ -66,33 +70,33 @@ const Login = () => {
     setUserPassword('');
 
   }
-  return <div>
+  return (<div>
     <form className={classes.root} onSubmit={loginFormHandler}>
 
-      
-        <TextField
-          label="Email"
-          variant="filled"
-          type="email"
-          required
-          value={userEmail}
-          onChange={emailHandler}
-        />
-        <TextField
-          label="Password"
-          variant="filled"
-          type="password"
-          required
-          value={userPassword}
-          onChange={passwordHandler}
-        />      <div>
-        <Button type="submit" variant="contained" color="primary" onClick ={()=>navigate('/dashboard')}>
-          Login 
+
+      <TextField
+        label="Email"
+        variant="filled"
+        type="email"
+        required
+        value={userEmail}
+        onChange={emailHandler}
+      />
+      <TextField
+        label="Password"
+        variant="filled"
+        type="password"
+        required
+        value={userPassword}
+        onChange={passwordHandler}
+      />      <div>
+        <Button type="submit" variant="contained" color="primary" >
+          Login
         </Button>
       </div>
       <div><span>{errorMessage}</span> </div>
 
-    </form>
-  </div>
+    </form >
+  </div >)
 }
 export default Login;

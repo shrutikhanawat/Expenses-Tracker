@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -24,7 +25,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Signup = () => {
+
   const navigate = useNavigate()
+  const navHandler = () =>{
+    navigate('/login')
+  }
 
   const classes = useStyles();
 
@@ -45,18 +50,22 @@ const Signup = () => {
 
 
   }
+  
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
     const userDetail = {
       name: enteredname,
       email: enteredEmail,
-      password: enteredPassword
+      password: enteredPassword,
+      expenses : []
      }
-
+     const userData = JSON.parse(localStorage.getItem(enteredEmail))
+     if(userData === null ){
 
     if (enteredEmail.includes('@') && enteredPassword.trim().length > 6) {
       localStorage.setItem(enteredEmail, JSON.stringify(userDetail))
+      navHandler();
       setEnteredPassword('');
       setEnteredEmail('');
       setName('');
@@ -64,6 +73,10 @@ const Signup = () => {
     else {
       alert("Please entered a validate email and password")
     }
+  }
+  else{
+     alert ("Already exists")
+  }
 
 
   }
@@ -98,7 +111,7 @@ const Signup = () => {
           onChange={passwordChangeHandler}
         />      
         <div>
-        <Button type="submit" variant="contained" color="primary" onClick ={()=>navigate('/login')}>
+        <Button type="submit" variant="contained" color="primary">
         Create Account
         </Button>
       </div>
