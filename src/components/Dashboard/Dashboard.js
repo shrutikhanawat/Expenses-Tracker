@@ -1,18 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Expenses from "../Expenses/Expenses";
 import NewExpense from "../Expenses/NewExpense";
-import {useSearchParams} from 'react-router-dom'
-
+import { UserContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
+    const useremail = useContext(UserContext)[0]
+    const navigate = useNavigate()
+    //let [searchParams, setSearchParams] = useSearchParams();
+    const [expenses, setExpenses] = useState([]);
 
-    let [searchParams, setSearchParams] = useSearchParams();
-    const [expenses, setExpenses] = useState(() => {
-        // get user email from param
-        const useremail = searchParams.get("user")
-        // get data for the user email from Local Storage
+    useEffect(() => {
+        if (!useremail || useremail === "") {
+            navigate('/login')
+        }
         const data = localStorage.getItem(useremail)
+        if (!data) {
+            return
+        }
         const jsonData = JSON.parse(data)
-        return jsonData.expenses.map((value) => {
+        if (!jsonData.expenses) {
+            return
+        }
+        const newState = jsonData.expenses.map((value) => {
             return {
                 id: value.id,
                 title: value.title,
@@ -20,30 +29,31 @@ const Dashboard = () => {
                 date: new Date(value.date),
             }
         })
-    });
-    
+        setExpenses(newState)
+    }, [])
 
+    const addNewDataHandler = (expense) => {
 
-
-    const addNewDataHandler =(expense) => {
-        // await fetch('https://expensestracker-59e29-default-rtdb.firebaseio.com/expenseslist.json', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'aplication/json',
-        //     },
-        //     body: JSON.stringify(expense),
-        // })
-        const useremail = searchParams.get("user")
+        // const useremail = searchParams.get("user")
         const data = localStorage.getItem(useremail)
-        const jsonData =  JSON.parse(data)
+        const jsonData = JSON.parse(data)
         jsonData.expenses.push(expense);
         localStorage.setItem(useremail, JSON.stringify(jsonData))
-        setExpenses(jsonData.expenses)
+        setExpenses(jsonData.expenses.map((value) => {
+            return {
+                id: value.id,
+                title: value.title,
+                amount: value.amount,
+                date: new Date(value.date),
+            }
+        }))
     }
 
-    return (<>    
-        <NewExpense addNewDataHandler={addNewDataHandler} />
-        <Expenses items={expenses} />
+    return (<>
+
+            <NewExpense addNewDataHandler={addNewDataHandler} />
+            <Expenses items={expenses} />
+
     </>
     )
 }

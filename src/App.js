@@ -1,27 +1,26 @@
 import { Routes, Route } from 'react-router-dom'
-import React from "react"
-import { Fragment, useState, useEffect } from 'react'
-import Expenses from './components/Expenses/Expenses'
+import React, { createContext,useState } from "react"
 import './style.css'
-import NewExpense from './components/Expenses/NewExpense'
 import Signup from './components/Login/Signup'
 import Login from './components/Login/Login'
 import Home from './components/Home'
 import Dashboard from './components/Dashboard/Dashboard'
+export const UserContext  = createContext()
 
 function App() {
+  const [currentUser,setCurrentUser] = useState('');
+
 
   return (
-    <Fragment>
-   
-   <Routes>
+    <UserContext.Provider value={[currentUser,setCurrentUser]}>
+      <Routes>
      <Route path='/signup' element={<Signup/>}/>
      <Route path='/login' element={<Login/>}/>
-     <Route path='/dashboard'element={<Dashboard/>}/>
+      <Route path='/dashboard'element={<Dashboard/>}/>
      <Route path ='/' element={<Home/>}/>
      </Routes>
-     
-    </Fragment>)
+     </UserContext.Provider>
+  )
 }
 
 export default App;

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState} from "react";
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../App";
 
 
 
@@ -25,17 +26,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Login = () => {
+  const setCurrentUser = useContext(UserContext)[1]
+
+ 
   const navigate = useNavigate()
-  const succefullyLogin = (email) => {
-    navigate(`/dashboard?user=${email}`)
-  }
+ const succefullyLogin = () => {
+   navigate('/dashboard');
+ }
 
-
+  
   const classes = useStyles();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
 
 
   const emailHandler = (e) => {
@@ -53,7 +56,10 @@ const Login = () => {
     if (userData !== null) {
 
       if (userPassword === userData.password) {
-        succefullyLogin(userEmail);
+        succefullyLogin();
+        setCurrentUser(userEmail)
+
+
       }
       else {
         setErrorMessage("Incorrect Password")
@@ -70,7 +76,10 @@ const Login = () => {
     setUserPassword('');
 
   }
-  return (<div>
+  return (<>
+   
+  
+  <div>
     <form className={classes.root} onSubmit={loginFormHandler}>
 
 
@@ -97,6 +106,7 @@ const Login = () => {
       <div><span>{errorMessage}</span> </div>
 
     </form >
-  </div >)
+  </div >
+  </>)
 }
 export default Login;
