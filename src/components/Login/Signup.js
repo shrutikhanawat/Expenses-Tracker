@@ -28,7 +28,7 @@ const Signup = () => {
 
   const navigate = useNavigate()
   const navHandler = () =>{
-    navigate('/login')
+    navigate('/Expenses-Tracker/login')
   }
 
   const classes = useStyles();

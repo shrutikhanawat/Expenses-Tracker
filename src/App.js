@@ -14,10 +14,10 @@ function App() {
   return (
     <UserContext.Provider value={[currentUser,setCurrentUser]}>
       <Routes>
-     <Route path='/signup' element={<Signup/>}/>
-     <Route path='/login' element={<Login/>}/>
-      <Route path='/dashboard'element={<Dashboard/>}/>
-     <Route path ='/' element={<Home/>}/>
+     <Route path='/Expenses-Tracker/signup' element={<Signup/>}/>
+     <Route path='/Expenses-Tracker/login' element={<Login/>}/>
+      <Route path='/Expenses-Tracker/dashboard'element={<Dashboard/>}/>
+     <Route path ='/Expenses-Tracker/' element={<Home/>}/>
      </Routes>
      </UserContext.Provider>
   )

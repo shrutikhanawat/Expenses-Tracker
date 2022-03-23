@@ -11,7 +11,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (!useremail || useremail === "") {
-            navigate('/login')
+            navigate('/Expenses-Tracker/login')
         }
         const data = localStorage.getItem(useremail)
         if (!data) {

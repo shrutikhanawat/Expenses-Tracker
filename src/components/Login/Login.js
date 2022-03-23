@@ -31,7 +31,7 @@ const Login = () => {
  
   const navigate = useNavigate()
  const succefullyLogin = () => {
-   navigate('/dashboard');
+   navigate('/Expenses-Tracker/dashboard');
  }
 
   

@@ -25,7 +25,7 @@ const NewExpense = (props) => {
 
         {!isEditing && <button onClick={startEditingHandler}>Add New Expense</button>}
         {isEditing && <ExpenseForm addNewDataHandler={props.addNewDataHandler} onCancel={stopEditingHandler} />}
-        <button onClick={() => { navigate('/login') }}>Logout</button>
+        <button onClick={() => { navigate('/Expenses-Tracker/login') }}>Logout</button>
 
 
 
